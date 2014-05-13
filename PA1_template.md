@@ -28,14 +28,6 @@ library(lattice)
 raw.data <- read.csv("activity.csv")
 ```
 
-```
-## Warning: cannot open file 'activity.csv': No such file or directory
-```
-
-```
-## Error: cannot open the connection
-```
-
 
 
 
@@ -47,21 +39,12 @@ First, we calculate the **total** number of steps on a given date. A histogram o
 ```r
 total.steps <- aggregate(raw.data$step ~ raw.data$date, data = raw.data, sum, 
     na.rm = FALSE)
-```
-
-```
-## Error: object 'raw.data' not found
-```
-
-```r
 
 hist(total.steps[, 2], xlab = "Number of Total Steps", ylab = "Frequency (Number of Days)", 
     main = "Histogram of Total Observed Steps by Date")
 ```
 
-```
-## Error: object 'total.steps' not found
-```
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
 
 
@@ -73,18 +56,11 @@ Next, we calculate the **mean** and **median** number of steps on a given date. 
 
 ```r
 mean.steps.per.day <- mean(total.steps[, 2])
-```
-
-```
-## Error: object 'total.steps' not found
-```
-
-```r
 mean.steps.per.day
 ```
 
 ```
-## Error: object 'mean.steps.per.day' not found
+## [1] 10766
 ```
 
 
@@ -95,18 +71,11 @@ mean.steps.per.day
 
 ```r
 median.steps.per.day <- median(total.steps[, 2])
-```
-
-```
-## Error: object 'total.steps' not found
-```
-
-```r
 median.steps.per.day
 ```
 
 ```
-## Error: object 'median.steps.per.day' not found
+## [1] 10765
 ```
 
 
@@ -124,28 +93,12 @@ In this step, we will calculate the **average number of steps** taken, aggregate
 
 average.steps.by.interval <- aggregate(raw.data$step ~ raw.data$interval, data = raw.data, 
     mean, na.rm = FALSE)
-```
-
-```
-## Error: object 'raw.data' not found
-```
-
-```r
 names(average.steps.by.interval) <- c("interval", "steps")
-```
-
-```
-## Error: object 'average.steps.by.interval' not found
-```
-
-```r
 plot(average.steps.by.interval, type = "l", xlab = "Five-Minute Interval", ylab = "Average Number of Steps", 
     main = "Average number of Steps by Five Minute Interval")
 ```
 
-```
-## Error: object 'average.steps.by.interval' not found
-```
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
 
 ```r
 
@@ -160,18 +113,11 @@ Next, we get the **interval with the highest average steps**. This is stored as 
 
 max.interval <- average.steps.by.interval[average.steps.by.interval$steps == 
     max(average.steps.by.interval$steps), 1]
-```
-
-```
-## Error: object 'average.steps.by.interval' not found
-```
-
-```r
 max.interval
 ```
 
 ```
-## Error: object 'max.interval' not found
+## [1] 835
 ```
 
 
@@ -188,18 +134,11 @@ First, we count the **number of NA values in the data set**. This value is store
 ```r
 
 count.raw <- sum(is.na(raw.data))
-```
-
-```
-## Error: object 'raw.data' not found
-```
-
-```r
 count.raw
 ```
 
 ```
-## Error: object 'count.raw' not found
+## [1] 2304
 ```
 
 
@@ -226,22 +165,8 @@ replace.nas <- function(row) {
 
 
 cleaned.data <- raw.data
-```
-
-```
-## Error: object 'raw.data' not found
-```
-
-```r
 
 cleaned.data$steps <- apply(cleaned.data, 1, replace.nas)
-```
-
-```
-## Error: object 'cleaned.data' not found
-```
-
-```r
 
 ```
 
@@ -256,21 +181,12 @@ cleaned.data$steps <- apply(cleaned.data, 1, replace.nas)
 
 total.steps.cleaned <- aggregate(as.numeric(cleaned.data$step) ~ as.numeric(cleaned.data$date), 
     data = cleaned.data, sum, na.rm = FALSE)
-```
-
-```
-## Error: object 'cleaned.data' not found
-```
-
-```r
 
 hist(total.steps.cleaned[, 2], xlab = "Number of Total Steps", ylab = "Frequency (Number of Days)", 
     main = "Histogram of Total Observed Steps by Date (NA Values Removed)")
 ```
 
-```
-## Error: object 'total.steps.cleaned' not found
-```
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
 
 ```r
 
@@ -283,18 +199,11 @@ hist(total.steps.cleaned[, 2], xlab = "Number of Total Steps", ylab = "Frequency
 
 ```r
 mean.steps.per.day.cleaned <- mean(total.steps.cleaned[, 2])
-```
-
-```
-## Error: object 'total.steps.cleaned' not found
-```
-
-```r
 mean.steps.per.day.cleaned
 ```
 
 ```
-## Error: object 'mean.steps.per.day.cleaned' not found
+## [1] 10766
 ```
 
 
@@ -304,18 +213,11 @@ mean.steps.per.day.cleaned
 
 ```r
 median.steps.per.day <- median(total.steps[, 2])
-```
-
-```
-## Error: object 'total.steps' not found
-```
-
-```r
 median.steps.per.day
 ```
 
 ```
-## Error: object 'median.steps.per.day' not found
+## [1] 10765
 ```
 
 
@@ -326,22 +228,8 @@ median.steps.per.day
 ```r
 
 cleaned.data$date <- as.Date(cleaned.data$date)
-```
-
-```
-## Error: object 'cleaned.data' not found
-```
-
-```r
 
 day.of.week.test <- weekdays(cleaned.data$date)
-```
-
-```
-## Error: object 'cleaned.data' not found
-```
-
-```r
 
 days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", 
     "Sunday")
@@ -351,7 +239,7 @@ cleaned.data$daytype <- factor(day.of.week.test, levels = days, labels = d.label
 ```
 
 ```
-## Error: object 'day.of.week.test' not found
+## Warning: duplicated levels in factors are deprecated
 ```
 
 ```r
@@ -359,112 +247,33 @@ cleaned.data$daytype <- factor(day.of.week.test, levels = days, labels = d.label
 
 cleaned.averages.by.interval <- aggregate(as.numeric(cleaned.data$step) ~ as.numeric(cleaned.data$interval) + 
     cleaned.data$daytype, data = cleaned.data, mean, na.rm = FALSE)
-```
-
-```
-## Error: object 'cleaned.data' not found
-```
-
-```r
 
 cleaned.data.split <- split(cleaned.data, cleaned.data$daytype)
-```
-
-```
-## Error: object 'cleaned.data' not found
-```
-
-```r
 
 weekday.data <- cleaned.data.split$weekday
-```
-
-```
-## Error: object 'cleaned.data.split' not found
-```
-
-```r
 weekend.data <- cleaned.data.split$weekend
-```
-
-```
-## Error: object 'cleaned.data.split' not found
-```
-
-```r
 
 weekday.average.steps.by.interval <- aggregate(as.numeric(weekday.data$step) ~ 
     as.numeric(weekday.data$interval), data = weekday.data, mean, na.rm = FALSE)
-```
-
-```
-## Error: object 'weekday.data' not found
-```
-
-```r
 
 weekend.average.steps.by.interval <- aggregate(as.numeric(weekend.data$step) ~ 
     as.numeric(weekend.data$interval), data = weekend.data, mean, na.rm = FALSE)
-```
-
-```
-## Error: object 'weekend.data' not found
-```
-
-```r
 
 names(weekday.average.steps.by.interval) <- c("interval", "steps")
-```
-
-```
-## Error: object 'weekday.average.steps.by.interval' not found
-```
-
-```r
 names(weekend.average.steps.by.interval) <- c("interval", "steps")
-```
-
-```
-## Error: object 'weekend.average.steps.by.interval' not found
-```
-
-```r
 
 
 weekday.average.steps.by.interval$day <- "weekday"
-```
-
-```
-## Error: object 'weekday.average.steps.by.interval' not found
-```
-
-```r
 weekend.average.steps.by.interval$day <- "weekend"
-```
-
-```
-## Error: object 'weekend.average.steps.by.interval' not found
-```
-
-```r
 
 combine.back <- data.frame
 combine.back <- rbind(weekday.average.steps.by.interval, weekend.average.steps.by.interval)
-```
-
-```
-## Error: object 'weekday.average.steps.by.interval' not found
-```
-
-```r
 
 xyplot(steps ~ interval | day, data = combine.back, type = "l", horizontal = TRUE, 
     layout = c(1, 2), ylab = "Number of steps", xlab = "Interval")
 ```
 
-```
-## Error: invalid 'envir' argument of type 'closure'
-```
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
 ```r
 
