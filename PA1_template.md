@@ -21,6 +21,7 @@ library(lattice)
 
 ## Loading and preprocessing the data
 
+The data for this report come from personal monitoring devices, and reports on the number of steps taken by users over 5-minute intervals. They are recorded in the 'activity.csv' file.
 
 
 ```r
@@ -38,10 +39,11 @@ First, we calculate the **total** number of steps on a given date. A histogram o
 
 ```r
 total.steps <- aggregate(raw.data$step ~ raw.data$date, data = raw.data, sum, 
-    na.rm = FALSE)
+    na.rm = TRUE)
+
 
 hist(total.steps[, 2], xlab = "Number of Total Steps", ylab = "Frequency (Number of Days)", 
-    main = "Histogram of Total Observed Steps by Date")
+    main = "Histogram of Total Observed Steps by Date", col = "#548BB5")
 ```
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
@@ -95,7 +97,7 @@ average.steps.by.interval <- aggregate(raw.data$step ~ raw.data$interval, data =
     mean, na.rm = FALSE)
 names(average.steps.by.interval) <- c("interval", "steps")
 plot(average.steps.by.interval, type = "l", xlab = "Five-Minute Interval", ylab = "Average Number of Steps", 
-    main = "Average number of Steps by Five Minute Interval")
+    main = "Average number of Steps by Five Minute Interval", col = "#548BB5")
 ```
 
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
@@ -142,6 +144,9 @@ count.raw
 ```
 
 
+
+### Strategy for replacing 'NA' values
+
 NA values from the original dataset are replaced by the average for the appropriate interval. These values are taken from the *average.steps.by.interval* data.frame. These are stored 
 
 
@@ -159,9 +164,10 @@ replace.nas <- function(row) {
         new.value <- row[1]
     }
     
-    as.numeric(new.value)
-    new.value[1]
+    
+    as.numeric(new.value[1])
 }
+
 
 
 cleaned.data <- raw.data
@@ -179,11 +185,12 @@ cleaned.data$steps <- apply(cleaned.data, 1, replace.nas)
 
 ```r
 
-total.steps.cleaned <- aggregate(as.numeric(cleaned.data$step) ~ as.numeric(cleaned.data$date), 
-    data = cleaned.data, sum, na.rm = FALSE)
+total.steps.cleaned <- aggregate(cleaned.data$step ~ cleaned.data$date, data = cleaned.data, 
+    sum)
 
 hist(total.steps.cleaned[, 2], xlab = "Number of Total Steps", ylab = "Frequency (Number of Days)", 
-    main = "Histogram of Total Observed Steps by Date (NA Values Removed)")
+    main = "Histogram of Total Observed Steps by Date (NA Values Removed)", 
+    col = "#548BB5")
 ```
 
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
@@ -270,7 +277,7 @@ combine.back <- data.frame
 combine.back <- rbind(weekday.average.steps.by.interval, weekend.average.steps.by.interval)
 
 xyplot(steps ~ interval | day, data = combine.back, type = "l", horizontal = TRUE, 
-    layout = c(1, 2), ylab = "Number of steps", xlab = "Interval")
+    layout = c(1, 2), ylab = "Number of steps", xlab = "Interval", col = "#548BB5")
 ```
 
 ![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
