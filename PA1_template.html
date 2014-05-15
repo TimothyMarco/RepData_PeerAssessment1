@@ -206,7 +206,7 @@ raw.data &lt;- read.csv(&quot;activity.csv&quot;)
 
 <h2>What is mean total number of steps taken per day?</h2>
 
-<p>First, we calculate the <strong>total</strong> number of steps on a given date. A histogram of these results can be seen below:</p>
+<p>First, we calculate the <strong>total</strong> number of steps for every date in the raw data set. A histogram of these results can be seen below:</p>
 
 <pre><code class="r">total.steps &lt;- aggregate(raw.data$step ~ raw.data$date, data = raw.data, sum, 
     na.rm = TRUE)
@@ -286,7 +286,7 @@ count.raw
 
 <h3>Strategy for replacing &#39;NA&#39; values</h3>
 
-<p>NA values from the original dataset are replaced by the average for the appropriate interval. These values are taken from the <em>average.steps.by.interval</em> data.frame. These are stored </p>
+<p>NA values from the original dataset are replaced by the average for the corresponding interval. These values are taken from the <em>average.steps.by.interval</em> data.frame. These are stored as <em>cleaned.data</em> </p>
 
 <pre><code class="r">
 replace.nas &lt;- function(row) {
